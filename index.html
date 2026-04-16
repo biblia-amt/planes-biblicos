@@ -2,40 +2,41 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Panel de Planes</title>
+  <title>Panel Planes</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <div class="container">
-  <h1>Crear Plan Bíblico</h1>
+  <h1>Panel de Planes</h1>
 
-  <!-- INFO GENERAL -->
+  <!-- INFO -->
   <div class="card">
-    <input id="id" placeholder="ID del plan">
+    <input id="id" placeholder="ID">
     <input id="title" placeholder="Título">
     <input id="subtitle" placeholder="Subtítulo">
-    <input id="minutes" type="number" placeholder="Minutos estimados">
+    <input id="minutes" type="number" placeholder="Minutos">
   </div>
 
-  <!-- LEARNING POINTS -->
+  <!-- LEARNING -->
   <div class="card">
-    <h3>Lo que aprenderán</h3>
+    <h3>Learning Points</h3>
     <div id="learningList"></div>
-    <button onclick="addLearning()">+ Agregar punto</button>
+    <button onclick="addLearning()">+ Agregar</button>
   </div>
 
   <!-- DAYS -->
   <div class="card">
     <h3>Días</h3>
     <div id="days"></div>
-    <button onclick="addDay()">+ Agregar día</button>
+    <button onclick="addDay()">+ Día</button>
   </div>
 
   <!-- EXPORT -->
   <div class="card">
     <button onclick="generateJSON()">Generar JSON</button>
-    <pre id="output"></pre>
+    <button onclick="downloadJSON()">Descargar</button>
+    <textarea id="output"></textarea>
   </div>
 </div>
 
