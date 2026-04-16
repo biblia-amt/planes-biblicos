@@ -1,231 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-<title>Plan Bíblico</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --gold:#B8935A; --ink:#1A1510; --cream:#FAF7F0; --parchment:#F2EBD9;
-  --muted:#7A6E64; --surface:#FFFDF8; --border:#E8DFD0; --accent:#F5EED8;
-}
-body{margin:0;font-family:'DM Sans',sans-serif;background:var(--cream);}
-.container{max-width:390px;margin:auto;min-height:100vh;box-shadow:0 0 40px rgba(0,0,0,.1);background:var(--cream)}
-.screen{display:none}
-.active{display:block}
-
-/* top */
-.top{display:flex;align-items:center;padding:18px 20px;border-bottom:1px solid var(--border);background:var(--surface)}
-.title{font-family:'Cormorant Garamond',serif;font-weight:700}
-
-/* cards */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px;margin:16px}
-.btn{width:100%;padding:14px;border-radius:14px;border:none;font-weight:600;cursor:pointer}
-.btn-dark{background:var(--ink);color:var(--cream)}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
-
-/* verse */
-.verse{background:var(--ink);color:#fff;border-radius:24px;padding:24px;margin:16px;font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic}
-
-/* list */
-.day{display:flex;gap:12px;padding:14px;border-radius:16px;margin:8px 16px;border:1px solid var(--border);align-items:center}
-.day.current{background:var(--accent);border-color:#B8935A55}
-.day.lock{opacity:.5}
-.circle{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600}
-.circle.done{background:var(--gold);color:#fff}
-.circle.current{background:var(--ink);color:#fff}
-.circle.pending{border:1px solid var(--border);color:var(--muted)}
-
-/* progress */
-.progress{display:flex;align-items:center;gap:20px}
-</style>
+  <meta charset="UTF-8">
+  <title>Panel de Planes</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
 <div class="container">
+  <h1>Crear Plan Bíblico</h1>
 
-<!-- OVERVIEW -->
-<div id="overview" class="screen active">
-
-  <div class="top">
-    <div class="title" style="flex:1">Ansiedad y paz</div>
-    <div style="font-size:12px;color:var(--muted)">7 días</div>
-  </div>
-
+  <!-- INFO GENERAL -->
   <div class="card">
-    <div class="progress">
-      <canvas id="progressCanvas" width="72" height="72"></canvas>
-      <div>
-        <div style="font-size:11px;color:var(--gold)">Plan en curso</div>
-        <div class="title" style="font-size:24px">Ansiedad y paz</div>
-      </div>
-    </div>
-
-    <p style="color:var(--muted)">Siete días para descansar en Dios</p>
-
-    <button class="btn btn-dark" onclick="openDay(currentDay)">
-      Continuar — Día <span id="btnDay"></span>
-    </button>
+    <input id="id" placeholder="ID del plan">
+    <input id="title" placeholder="Título">
+    <input id="subtitle" placeholder="Subtítulo">
+    <input id="minutes" type="number" placeholder="Minutos estimados">
   </div>
 
-  <div id="daysList"></div>
-
-</div>
-
-<!-- READING -->
-<div id="reading" class="screen">
-
-  <div class="top">
-    <span onclick="show('overview')" style="cursor:pointer">←</span>
-    <div class="title" style="flex:1;text-align:center">Día <span id="rDay"></span></div>
-  </div>
-
+  <!-- LEARNING POINTS -->
   <div class="card">
-    <div class="title" id="rTitle"></div>
-    <div style="color:var(--muted)" id="rRef"></div>
+    <h3>Lo que aprenderán</h3>
+    <div id="learningList"></div>
+    <button onclick="addLearning()">+ Agregar punto</button>
   </div>
 
-  <div class="verse" id="rVerse"></div>
-
-  <div class="card" id="rReflection"></div>
-
+  <!-- DAYS -->
   <div class="card">
-    <button class="btn btn-dark" onclick="completeDay()">Completar día</button>
-    <button class="btn btn-outline" onclick="show('overview')">Volver</button>
+    <h3>Días</h3>
+    <div id="days"></div>
+    <button onclick="addDay()">+ Agregar día</button>
   </div>
 
-</div>
-
-<!-- COMPLETED -->
-<div id="completed" class="screen">
-
-  <div class="card" style="text-align:center">
-    <h2>✓ Día completado</h2>
-    <p style="color:var(--muted)">Buen trabajo</p>
-
-    <button class="btn btn-dark" onclick="nextDay()">Siguiente día</button>
+  <!-- EXPORT -->
+  <div class="card">
+    <button onclick="generateJSON()">Generar JSON</button>
+    <pre id="output"></pre>
   </div>
-
 </div>
 
-</div>
-
-<script>
-// DATA
-const planDays = [
-  {day:1,title:"Entrega la ansiedad",ref:"Filipenses 4:6"},
-  {day:2,title:"Dios cuida de ti",ref:"1 Pedro 5:7"},
-  {day:3,title:"Descanso para el alma",ref:"Mateo 11:28"},
-  {day:4,title:"Mente guardada",ref:"Isaías 26:3"},
-  {day:5,title:"No temas",ref:"Juan 14:27"},
-  {day:6,title:"Dios contigo",ref:"Salmos 23:1"},
-  {day:7,title:"Confianza diaria",ref:"Salmos 46:1"},
-];
-
-let currentDay = parseInt(localStorage.getItem("currentDay")) || 2;
-
-// NAV
-function show(s){
-  ["overview","reading","completed"].forEach(id=>{
-    document.getElementById(id).classList.remove("active")
-  });
-  document.getElementById(s).classList.add("active");
-}
-
-// LIST
-function renderDays(){
-  const list=document.getElementById("daysList");
-  list.innerHTML="";
-
-  planDays.forEach(d=>{
-    let status = d.day < currentDay ? "done" : d.day === currentDay ? "current" : "pending";
-
-    let el=document.createElement("div");
-    el.className="day "+(status==="current"?"current":"")+(status==="pending"?" lock":"");
-
-    el.innerHTML=`
-      <div class="circle ${status}">
-        ${status==="done"?"✓":d.day}
-      </div>
-      <div style="flex:1">
-        <div>${d.title}</div>
-        <div style="font-size:12px;color:var(--muted)">${d.ref}</div>
-      </div>
-    `;
-
-    if(status!=="pending"){
-      el.onclick=()=>openDay(d.day);
-    }
-
-    list.appendChild(el);
-  });
-
-  document.getElementById("btnDay").innerText=currentDay;
-}
-
-// READING
-function openDay(day){
-  const d=planDays.find(x=>x.day===day);
-  document.getElementById("rDay").innerText=day;
-  document.getElementById("rTitle").innerText=d.title;
-  document.getElementById("rRef").innerText=d.ref;
-  document.getElementById("rVerse").innerText="Texto del versículo...";
-  document.getElementById("rReflection").innerText="Reflexión del día...";
-  show("reading");
-}
-
-// COMPLETE
-function completeDay(){
-  show("completed");
-}
-
-// NEXT
-function nextDay(){
-  currentDay++;
-  localStorage.setItem("currentDay",currentDay);
-  renderDays();
-  drawProgress();
-  show("overview");
-}
-
-// PROGRESS (canvas)
-function drawProgress(){
-  const canvas=document.getElementById("progressCanvas");
-  const ctx=canvas.getContext("2d");
-
-  const total=7;
-  const value=currentDay-1;
-  const pct=value/total;
-
-  ctx.clearRect(0,0,72,72);
-
-  ctx.beginPath();
-  ctx.arc(36,36,28,0,2*Math.PI);
-  ctx.strokeStyle="#E8DFD0";
-  ctx.lineWidth=6;
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(36,36,28,-Math.PI/2,(2*Math.PI*pct)-Math.PI/2);
-  ctx.strokeStyle="#B8935A";
-  ctx.lineWidth=6;
-  ctx.stroke();
-
-  ctx.fillStyle="#1A1510";
-  ctx.font="bold 14px sans-serif";
-  ctx.textAlign="center";
-  ctx.fillText(value+"/"+total,36,40);
-}
-
-// INIT
-renderDays();
-drawProgress();
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
