@@ -89,18 +89,22 @@ function renderDays(){
 
         <h4>Referencias</h4>
         ${d.references.map((r,ri)=>`
-          <div class="ref">
-            <button onclick="removeReference(${i},${ri})">x</button>
+  <div class="ref">
+    <button onclick="removeReference(${i},${ri})">x</button>
 
-            <input placeholder="Tipo" onchange="updateReference(${i},${ri},'title',this.value)">
-            <input placeholder="Referencia" onchange="updateReference(${i},${ri},'reference',this.value)">
-            <input placeholder="bookId" onchange="updateReference(${i},${ri},'bookId',this.value)">
-            <input placeholder="chapter" onchange="updateReference(${i},${ri},'chapter',this.value)">
-            <input placeholder="startVerse" onchange="updateReference(${i},${ri},'startVerse',this.value)">
-            <input placeholder="endVerse" onchange="updateReference(${i},${ri},'endVerse',this.value)">
-            <input placeholder="verse" onchange="updateReference(${i},${ri},'verse',this.value)">
-          </div>
-        `).join("")}
+    <select onchange="updateReference(${i},${ri},'title',this.value)">
+      <option value="Lectura principal" ${r.title==="Lectura principal"?"selected":""}>Lectura principal</option>
+      <option value="Lectura de apoyo" ${r.title==="Lectura de apoyo"?"selected":""}>Lectura de apoyo</option>
+    </select>
+
+    <input placeholder="Referencia" value="${r.reference||""}" onchange="updateReference(${i},${ri},'reference',this.value)">
+    <input placeholder="bookId" value="${r.bookId||""}" onchange="updateReference(${i},${ri},'bookId',this.value)">
+    <input placeholder="chapter" value="${r.chapter||""}" onchange="updateReference(${i},${ri},'chapter',this.value)">
+    <input placeholder="startVerse" value="${r.startVerse||""}" onchange="updateReference(${i},${ri},'startVerse',this.value)">
+    <input placeholder="endVerse" value="${r.endVerse||""}" onchange="updateReference(${i},${ri},'endVerse',this.value)">
+    <input placeholder="verse" value="${r.verse||""}" onchange="updateReference(${i},${ri},'verse',this.value)">
+  </div>
+`).join("")}
 
         <button onclick="addReference(${i})">+ Referencia</button>
 
