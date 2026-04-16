@@ -1,0 +1,35 @@
+{
+  "id": "amar_herido",
+  "title": "Amar cuando has sido herido",
+  "subtitle": "8 días para sanar el corazón, discernir con verdad y aprender a amar sin negar lo vivido.",
+  "estimatedMinutes": 6,
+  "learningPoints": [
+    "Reconocer la herida delante de Dios con honestidad",
+    "Diferenciar amor de miedo, costumbre o tolerancia al daño",
+    "Perdonar, poner límites y volver a amar con sabiduría"
+  ],
+  "days": [
+    {
+      "day": 1,
+      "title": "Dios ve la herida que llevas dentro",
+      "focusLine": "Hoy recordarás que Dios no minimiza tu dolor, no se aleja de tu quebranto y no te pide fingir que ya estás bien.",
+      "beforeReading": "Antes de abrir este pasaje, guarda un momento de silencio y preséntale a Dios la herida que más pesa en tu corazón.",
+      "references": [
+        {
+          "title": "Lectura principal",
+          "reference": "Salmos 34:18-19",
+          "bookId": 19,
+          "chapter": 34,
+          "startVerse": 18,
+          "endVerse": 19
+        }
+      ],
+      "passageHighlight": "Cercano está Jehová a los quebrantados de corazón; y salva a los contritos de espíritu.",
+      "reflection": "Dios no se mantiene lejos del corazón quebrantado.",
+      "question": "¿Qué herida necesitas presentar a Dios hoy?",
+      "prayer": "Señor, hoy traigo mi dolor delante de ti.",
+      "action": "Escribe lo que te hirió y entrégalo a Dios.",
+      "memoryVerse": "Salmos 34:18"
+    }
+  ]
+}
