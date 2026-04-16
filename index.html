@@ -1,16 +1,76 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Panel Planes</title>
   <link rel="stylesheet" href="styles.css">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .day {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+
+    .ref {
+      border: 1px dashed #ccc;
+      padding: 8px;
+      margin-top: 8px;
+      border-radius: 4px;
+    }
+
+    textarea {
+      min-height: 70px;
+    }
+
+    #output {
+      min-height: 200px;
+    }
+  </style>
+
 </head>
+
 <body>
 
 <div class="container">
   <h1>Panel de Planes</h1>
 
   <!-- INFO -->
+
   <div class="card">
     <input id="id" placeholder="ID">
     <input id="title" placeholder="Título">
@@ -19,6 +79,7 @@
   </div>
 
   <!-- LEARNING -->
+
   <div class="card">
     <h3>Learning Points</h3>
     <div id="learningList"></div>
@@ -26,6 +87,7 @@
   </div>
 
   <!-- DAYS -->
+
   <div class="card">
     <h3>Días</h3>
     <div id="days"></div>
@@ -33,18 +95,17 @@
   </div>
 
   <!-- EXPORT -->
+
   <div class="card">
     <button onclick="generateJSON()">Generar JSON</button>
     <button onclick="downloadJSON()">Descargar</button>
-    <textarea id="output"></textarea>
+    <textarea id="output" placeholder="Aquí aparecerá el JSON"></textarea>
   </div>
 </div>
 
-<!-- 🔥 ORDEN CORRECTO Y LIMPIO -->
-<script src="js/references-ui-final.js"></script>
-<script src="js/days-full.js"></script>
+<!-- ✅ SOLO ESTE SCRIPT -->
+
 <script src="app.js"></script>
-  <script src="js/override-final.js"></script>
 
 </body>
 </html>
