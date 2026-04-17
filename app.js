@@ -86,14 +86,6 @@ function removeReference(i, r){
 
 function updateReference(i, r, key, value){
   days[i].references[r][key] = value;
-
-  if(key === "bookId"){
-    const book = books.find(b => String(b.id) === String(value));
-    if(book){
-      days[i].references[r].reference = book.name;
-    }
-    renderDays();
-  }
 }
 
 /* ---------- RENDER ---------- */
@@ -125,14 +117,25 @@ function renderDays(){
 
     <input placeholder="Referencia" value="${r.reference||""}" onchange="updateReference(${i},${ri},'reference',this.value)">
 
-    <select onchange="updateReference(${i},${ri},'bookId', this.value)">
-      <option value="">Seleccionar libro</option>
-      ${books.map(b => `
-        <option value="${b.id}" ${String(r.bookId) === String(b.id) ? "selected" : ""}>
-          ${b.name}
-        </option>
-      `).join("")}
-    </select>
+    <div style="display:flex; gap:8px; align-items:center;">
+
+      <select onchange="updateReference(${i},${ri},'bookId', this.value)">
+        <option value="">Libro</option>
+        ${books.map(b => `
+          <option value="${b.id}" ${String(r.bookId) === String(b.id) ? "selected" : ""}>
+            ${b.name}
+          </option>
+        `).join("")}
+      </select>
+
+      <input 
+        placeholder="bookId"
+        value="${r.bookId||""}" 
+        onchange="updateReference(${i},${ri},'bookId',this.value)"
+        style="width:70px"
+      >
+
+    </div>
 
     <input placeholder="chapter" value="${r.chapter||""}" onchange="updateReference(${i},${ri},'chapter',this.value)">
     <input placeholder="startVerse" value="${r.startVerse||""}" onchange="updateReference(${i},${ri},'startVerse',this.value)">
