@@ -1,6 +1,12 @@
 let days = [];
 let learningPoints = [];
 
+/* ---------- INIT ---------- */
+window.onload = function(){
+  renderDays();
+  renderLearning();
+};
+
 /* ---------- BOOKS ---------- */
 const books = [
   { id: 1, name: "Génesis" },
@@ -20,6 +26,7 @@ function addLearning() {
 
 function renderLearning() {
   const div = document.getElementById("learningList");
+  if(!div) return;
   div.innerHTML = learningPoints.map((l, i) =>
     `<div>${i+1}. ${l} <button onclick="removeLearning(${i})">x</button></div>`
   ).join("");
@@ -92,6 +99,8 @@ function updateReference(i, r, key, value){
 /* ---------- RENDER ---------- */
 function renderDays(){
   const container = document.getElementById("days");
+  if(!container) return;
+
   container.innerHTML = "";
 
   days.forEach((d, i)=>{
