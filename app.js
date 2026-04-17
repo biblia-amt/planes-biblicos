@@ -86,6 +86,7 @@ function removeReference(i, r){
 
 function updateReference(i, r, key, value){
   days[i].references[r][key] = value;
+  renderDays(); // 🔥 sync UI inmediatamente
 }
 
 /* ---------- RENDER ---------- */
@@ -131,7 +132,7 @@ function renderDays(){
       <input 
         placeholder="bookId"
         value="${r.bookId||""}" 
-        onchange="updateReference(${i},${ri},'bookId',this.value)"
+        readonly
         style="width:70px"
       >
 
